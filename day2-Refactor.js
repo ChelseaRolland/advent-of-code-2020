@@ -1012,7 +1012,8 @@ let passArr = ["1-14 b: bbbbbbbbbbbbbbbbbbb" ,
 //create function to reviews all of the passwords
 function reviewAllPassword(){
     //create a counter
-    let count = 0;
+    let countOne = 0;
+    let countTwo = 0;
 
     //Go thru each element of the array
     passArr.forEach((pass, index) => {
@@ -1030,14 +1031,22 @@ function reviewAllPassword(){
         console.log("numReq = ",numReq);
         console.log("min = ", min);
         console.log("max = ", max);
+        console.log("finding a character of specific index of string = ", arr[2][0]);
 
         if (partOneTest(min, max, char, arr[2])){
-            count++;
+            countOne++;
+        }
+
+        //Due to password system not being 0 index, we must make it in order for the function to work;
+        // -1 from our min and max to achieve this for our position 1/2
+        if (partTwoTest(min-1, max-1, char, arr[2])){
+            countTwo++;
         }
 
     });
-    console.log(count);
-    return count;
+
+    console.log("part1 answer = ",countOne);
+    console.log("part2 answer = ",countTwo);
 }
 
 reviewAllPassword();
@@ -1049,4 +1058,20 @@ function partOneTest(min, max, char, password){
     let filterArr = passArr.filter(pass => pass === char);
     //Applying the conditions of min # of times it must be in password and the max times it could be in a password
     return filterArr.length >= min && filterArr.length <= max;
+}
+
+//Part 2
+/* Each policy actually describes two positions in the password, where 1 means the first character, 2 means the second character, and so on. (Be careful; Toboggan Corporate Policies have no concept of "index zero"!) Exactly one of these positions must contain the given letter. Other occurrences of the letter are irrelevant for the purposes of policy enforcement.
+
+Given the same example list from above:
+
+1-3 a: abcde is valid: position 1 contains a and position 3 does not.
+1-3 b: cdefg is invalid: neither position 1 nor position 3 contains b.
+2-9 c: ccccccccc is invalid: both position 2 and position 9 contain c. */
+
+function partTwoTest(position1, position2, char, password){
+    //check the indexes of the password and compare it to the character
+    //it must equal to only 1 of the indexes being equal to the character not 2/both/multiple
+    //check for both instance if the 1st or 2nd is wrong when the other index is correct
+    return (password[position1] === char && password[position2] !== char) || (password[position1] !== char && password[position2] === char);
 }
