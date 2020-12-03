@@ -1030,12 +1030,23 @@ function reviewAllPassword(){
         console.log("numReq = ",numReq);
         console.log("min = ", min);
         console.log("max = ", max);
+
+        if (partOneTest(min, max, char, arr[2])){
+            count++;
+        }
+
     });
+    console.log(count);
+    return count;
 }
 
 reviewAllPassword();
 
 function partOneTest(min, max, char, password){
+    //Getting each letter in the password to compare it to the character
     let passArr = password.split("");
-    if ()
+    //Filtering the array with filter method to get the specific characters to compare them to the min and max
+    let filterArr = passArr.filter(pass => pass === char);
+    //Applying the conditions of min # of times it must be in password and the max times it could be in a password
+    return filterArr.length >= min && filterArr.length <= max;
 }
